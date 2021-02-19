@@ -32,7 +32,7 @@ def topology_sort():
     q = deque()
 
     # Insert nodes with indegree 0 for starters
-    for i in range(V + 1):
+    for i in range(1, V + 1):
         if indegree[i] == 0:
             q.append(i)
 
