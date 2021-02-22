@@ -1,4 +1,3 @@
-# binary_search.py
 def binary_search(arr, target, start, end):
     if start > end:
         return None
