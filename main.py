@@ -1,25 +1,36 @@
 import sys
 input = sys.stdin.readline
-INF = int(1e9)
+
+
+def find_parent(parent, x):
+    if parent[x] != x:
+        parent[x] = find_parent(parent, parent[x])
+    return parent[x]
+
+
+def union_parent(parent, a, b):
+    a = find_parent(parent, a)
+    b = find_parent(parent, b)
+
+    if a < b:
+        b = parent[a]
+    else:
+        a = parent[b]
+
 
 V, E = map(int, input().split())
-graph = [[INF] * (V + 1) for _ in range(V + 1)]
-
-for a in range(1, V + 1):
-    for b in range(1, V + 1):
-        if a == b:
-            graph[a][b] = 0
+parent = [i for i in range(V + 1)]
 
 for i in range(E):
-    a, b, c = map(int, input().split())
-    graph[a][b] = c
+    a, b = map(int, input().split())
+    union_parent(parent, a, b)
 
-for k in range(1, V + 1):
-    for a in range(1, V + 1):
-        for b in range(1, V + 1):
-            graph[a][b] = min(graph[a][b], graph[a][k] + graph[k][b])
+print('각 원소가 속한 집합: ', end='')
+for i in range(1, V + 1):
+    print(find_parent(parent, i), end=' ')
 
-for a in range(1, V + 1):
-    for b in range(1, V + 1):
-        print(graph[a][b] if graph[a][b] != INF else 'INFINITY', end=' ')
-    print()
+print()
+
+print('부모 집합: ', end='')
+for i in range(1, V + 1):
+    print(parent[i], end=' ')
